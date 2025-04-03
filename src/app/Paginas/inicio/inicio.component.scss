@@ -1,0 +1,67 @@
+/* Fuente futurista */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  font-family: "Orbitron", sans-serif;
+}
+
+.start-container {
+  background: rgba(13, 2, 33, 0.6); /* Transparente con efecto vidrio */
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(122, 11, 192, 0.5);
+  backdrop-filter: blur(10px);
+  max-width: 600px;
+  width: 100%;
+}
+
+.glow-text {
+  font-size: 2.5em;
+  text-transform: uppercase;
+  color: whitesmoke;
+  text-shadow: 0 0 10px #560bad, 0 0 20px #560bad, 0 0 40px #560bad;
+  animation: pulse 1.5s infinite alternate;
+}
+
+/* Subtítulo con efecto neón */
+.subtitle {
+  font-size: 1.2em;
+  color: #d4c2fc;
+  text-shadow: 0 0 5px #7a0bc0;
+}
+
+.neon-button {
+  background: #3f37c9;
+  border: 2px solid #560bad;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 10px #560bad, 0 0 20px #560bad;
+  margin: 10px;
+  border-radius: 5px;
+}
+
+/* Efecto hover para botones */
+.neon-button:hover {
+  background: #f72585;
+  box-shadow: 0 0 20px #f72585, 0 0 40px #f72585;
+  transform: scale(1.1);
+}
+
+/* Animación de pulso en el título */
+@keyframes pulse {
+  from {
+    text-shadow: 0 0 10px #560bad, 0 0 20px #560bad;
+  }
+  to {
+    text-shadow: 0 0 20px #7a0bc0, 0 0 40px #7a0bc0;
+  }
+}

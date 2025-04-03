@@ -1,0 +1,120 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+/* Asegurar que el formulario esté centrado en la pantalla */
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ocupar toda la altura de la pantalla */
+  width: 100vw; /* Ocupar toda la anchura de la pantalla */
+  text-align: center;
+  font-family: "Orbitron", sans-serif;
+}
+
+/* Contenedor principal centrado */
+.register-container {
+  background: rgba(13, 2, 33, 0.8);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(122, 11, 192, 0.5);
+  backdrop-filter: blur(10px);
+  max-width: 600px;
+  width: 90%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* Centrar perfectamente */
+}
+
+/* Estilo para el texto "Registro de Jugadores" */
+.glow-text {
+  font-size: 2.5em;
+  text-transform: uppercase;
+  color: whitesmoke;
+  text-shadow: 0 0 10px #560bad, 0 0 20px #560bad, 0 0 40px #560bad;
+  animation: pulse 1.5s infinite alternate;
+}
+
+/* Estilo para el grupo de formularios de jugadores */
+.player-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Estilo para los formularios de jugadores */
+.player-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+}
+
+/* Estilo para los campos de entrada */
+.input-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.player-text {
+  font-size: 1.5em;
+  text-transform: uppercase;
+  color: whitesmoke;
+  text-shadow: 0 0 10px #560bad, 0 0 20px #560bad, 0 0 40px #560bad;
+  animation: pulse 1.5s infinite alternate;
+}
+
+.neon-input {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  font-size: 1.2em;
+  text-align: center;
+  width: 100%;
+  box-shadow: 0 0 10px rgba(122, 11, 192, 0.5);
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease-in-out;
+  outline: none;
+}
+
+.input-group {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+/* Estilo para los botones */
+.neon-button {
+  background: #3f37c9;
+  border: 2px solid #560bad;
+  color: white;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 10px #560bad, 0 0 20px #560bad;
+  margin: 15px;
+  border-radius: 5px;
+}
+
+.neon-button:hover {
+  background: #f72585;
+  box-shadow: 0 0 20px #f72585, 0 0 40px #f72585;
+  transform: scale(1.1);
+}
+
+/* Ajuste para dispositivos pequeños */
+@media (max-width: 600px) {
+  .register-container {
+    width: 95%;
+    padding: 20px;
+  }
+}
