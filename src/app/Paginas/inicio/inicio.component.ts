@@ -13,4 +13,8 @@ export class InicioComponent {
   selectMode(players: number) {
     this.router.navigate(['jugadores/', players]);
   }
+
+  public borrarJugadores() {
+    localStorage.removeItem('jugadores');
+  }
 }

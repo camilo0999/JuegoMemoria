@@ -1,21 +1,33 @@
 import { Component, OnInit } from '@angular/core';
-import { NgFor, NgIf } from '@angular/common';
+import { NgIf } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // ✅ Importar FormsModule
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [NgFor, NgIf, FormsModule],
+  imports: [NgIf, FormsModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit {
   cantidadJugadores: number = 1;
-  jugador1: any = { nombre: '', edad: '', puntaje: 0 };
-  jugador2: any = { nombre: '', edad: '', puntaje: 0 };
+  jugador1: any = {
+    nombre: '',
+    edad: '',
+    puntaje: 0,
+    tiempo: 0,
+    numeroIntentos: 0,
+  };
+  jugador2: any = {
+    nombre: '',
+    edad: '',
+    puntaje: 0,
+    tiempo: 0,
+    numeroIntentos: 0,
+  };
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe((params) => {
@@ -25,12 +37,14 @@ export class RegisterComponent implements OnInit {
   }
 
   public registrar() {
-    if (this.cantidadJugadores === 1) {
-      localStorage.setItem('jugador1', JSON.stringify(this.jugador1));
-    } else {
-      localStorage.setItem('jugador1', JSON.stringify(this.jugador1));
-      localStorage.setItem('jugador2', JSON.stringify(this.jugador2));
+    const jugadores = [this.jugador1];
+
+    if (this.cantidadJugadores === 2) {
+      jugadores.push(this.jugador2);
     }
+
+    localStorage.setItem('jugadores', JSON.stringify(jugadores));
+    this.router.navigate(['jugar']);
   }
 
   public volver() {
