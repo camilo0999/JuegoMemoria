@@ -1,4 +1,3 @@
-````markdown
 # JuegoMemoria
 
 El **Juego de Memoria** es una aplicación web desarrollada con Angular que permite al usuario poner a prueba su memoria visual. El objetivo del juego es encontrar pares de tarjetas que coincidan, lo que lo convierte en una forma entretenida y educativa de ejercitar la memoria.
@@ -46,6 +45,7 @@ Antes de empezar, asegúrate de tener instaladas las siguientes herramientas:
    ```bash
    git clone https://github.com/camilo0999/JuegoMemoria.git
    ```
+
 ````
 
 2. **Navegar al Directorio del Proyecto**
@@ -149,5 +149,6 @@ Este proyecto está licenciado bajo la [Nombre de la Licencia] - consulta el arc
 
 ## Autores
 
-- **Camilo [Camiloibarguen999]** - _Desarrollador principal_  
+- **Camilo [Camiloibarguen999]** - _Desarrollador principal_
   [Perfil de GitHub](https://github.com/camilo0999)
+````
