@@ -46,8 +46,6 @@ Antes de empezar, asegúrate de tener instaladas las siguientes herramientas:
    git clone https://github.com/camilo0999/JuegoMemoria.git
    ```
 
-````
-
 2. **Navegar al Directorio del Proyecto**
 
    ```bash
@@ -151,4 +149,7 @@ Este proyecto está licenciado bajo la [Nombre de la Licencia] - consulta el arc
 
 - **Camilo [Camiloibarguen999]** - _Desarrollador principal_
   [Perfil de GitHub](https://github.com/camilo0999)
-````
+
+```
+
+```
