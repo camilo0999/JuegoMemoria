@@ -2,85 +2,15 @@
 <div class="container">
   <h2 class="titulo">🧠 Juego de Memoria Espacial 🚀</h2>
   <div class="tablero">
-    <div class="fila">
-      <div class="celda">
+    <div class="fila" *ngFor="let fila of filas">
+      <div
+        class="celda"
+        *ngFor="let carta of fila"
+        (click)="destaparCarta(carta.id)"
+      >
         <img
-          src="https://cdn-icons-png.flaticon.com/256/11013/11013659.png"
-          alt="Carta"
-        />
-      </div>
-      <div class="celda">
-        <img
-          src="https://images.vexels.com/media/users/3/261528/isolated/lists/9ecf6e11808a12bced0a3ad5eb4a7817-planeta-tierra-plano-simple.png"
-          alt="Carta"
-        />
-      </div>
-      <div class="celda">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/9926/9926437.png"
-          alt="Carta"
-        />
-      </div>
-    </div>
-
-    <div class="fila">
-      <div class="celda">
-        <img
-          src="https://cdn-icons-png.flaticon.com/256/11013/11013659.png"
-          alt="Carta"
-        />
-      </div>
-      <div class="celda">
-        <img
-          src="https://media.istockphoto.com/id/1452870348/es/vector/icono-de-cohete-en-estilo-plano-despegue-de-la-nave-espacial-en-el-fondo-espacial.jpg?s=612x612&w=0&k=20&c=GZkzWmChG_3ecbSCEu5pnA6tE81DRMwGlN3USPgQTo8="
-          alt="Carta"
-        />
-      </div>
-      <div class="celda">
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/9926/9926437.png"
-          alt="Carta"
-        />
-      </div>
-    </div>
-
-    <div class="fila">
-      <div class="celda">
-        <img
-          src="https://cdn-icons-png.flaticon.com/256/12373/12373794.png"
-          alt="Reverso"
-        />
-      </div>
-      <div class="celda">
-        <img
-          src="https://media.istockphoto.com/id/1452870348/es/vector/icono-de-cohete-en-estilo-plano-despegue-de-la-nave-espacial-en-el-fondo-espacial.jpg?s=612x612&w=0&k=20&c=GZkzWmChG_3ecbSCEu5pnA6tE81DRMwGlN3USPgQTo8="
-          alt="Reverso"
-        />
-      </div>
-      <div class="celda">
-        <img
-          src="https://cdn-icons-png.flaticon.com/256/12373/12373794.png"
-          alt="Reverso"
-        />
-      </div>
-    </div>
-    <div class="fila">
-      <div class="celda">
-        <img
-          src="https://images.vexels.com/media/users/3/261528/isolated/lists/9ecf6e11808a12bced0a3ad5eb4a7817-planeta-tierra-plano-simple.png"
-          alt="Reverso"
-        />
-      </div>
-      <div class="celda">
-        <img
-          src="https://images.vexels.com/media/users/3/150075/isolated/lists/a741e3f3d6ab8f6a904574b1084aa8c8-ilustracion-de-objeto-volador-no-identificado.png"
-          alt="Reverso"
-        />
-      </div>
-      <div class="celda">
-        <img
-          src="https://images.vexels.com/media/users/3/150075/isolated/lists/a741e3f3d6ab8f6a904574b1084aa8c8-ilustracion-de-objeto-volador-no-identificado.png"
-          alt="Reverso"
+          [src]="carta.tapada ? reverso : carta.imagen"
+          [alt]="carta.nombre"
         />
       </div>
     </div>
@@ -89,7 +19,9 @@
 
 <!-- Controles a la derecha -->
 <div class="controles">
-  <button class="neon-button">Iniciar Juego</button>
+  <button class="neon-button" (click)="iniciarJuego()">
+    {{ estadoJuego ? "Reiniciar juego" : "Iniciar Juego" }}
+  </button>
   <button class="neon-button" (click)="volver()">Volver</button>
 
   <div class="dificultad-container">
@@ -100,4 +32,8 @@
       <option value="dificil">Difícil</option>
     </select>
   </div>
+</div>
+
+<div *ngIf="mostrarToast" class="toast">
+  {{ mensajeToast }}
 </div>

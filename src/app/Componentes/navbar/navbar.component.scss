@@ -1,4 +1,4 @@
-/* Fuente futurista */
+/* Estilo futurista mejorado */
 
 .jugadores-container {
   position: absolute;
@@ -6,26 +6,41 @@
   left: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  z-index: 100;
 }
 
 .jugador-card {
-  background: rgba(0, 0, 0, 0.7); /* Fondo oscuro transparente */
-  color: #fff;
-  padding: 15px;
-  width: 250px;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(5px);
+  background: rgba(20, 20, 20, 0.8);
+  color: #00ffe7;
+  padding: 20px;
+  width: 280px;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 255, 231, 0.3);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(0, 255, 231, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  font-family: "Orbitron", sans-serif; /* Fuente futurista sugerida */
+}
+
+.jugador-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 0 25px rgba(0, 255, 231, 0.6);
 }
 
 .jugador-nombre {
   text-align: center;
-  font-size: 20px;
-  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+  color: #00ffe7;
+  text-shadow: 0 0 5px rgba(0, 255, 231, 0.5);
 }
 
 .jugador-info p {
-  margin: 5px 0;
-  font-size: 16px;
+  margin: 6px 0;
+  font-size: 17px;
+  color: #ffffffcc;
+  text-shadow: 0 0 3px rgba(0, 255, 231, 0.2);
 }
