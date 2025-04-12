@@ -2,6 +2,8 @@
 
 El **Juego de Memoria** es una aplicación web desarrollada con Angular que permite al usuario poner a prueba su memoria visual. El objetivo del juego es encontrar pares de tarjetas que coincidan, lo que lo convierte en una forma entretenida y educativa de ejercitar la memoria.
 
+![Captura del juego](./public/Imagen%20pegada.png "Vista del Juego de Memoria")
+
 ## Tabla de Contenidos
 
 - [Descripción](#descripción)
