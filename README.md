@@ -1,5 +1,3 @@
-Copia y pega el siguiente bloque de código en tu archivo **README.md** para tener toda la información ya formateada y lista para usar:
-
 ````markdown
 # JuegoMemoria
 
