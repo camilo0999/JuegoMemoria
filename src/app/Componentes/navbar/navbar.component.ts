@@ -12,7 +12,7 @@ import {
   standalone: true,
   imports: [CommonModule],
   templateUrl: './navbar.component.html',
-  styleUrl: './navbar.component.scss',
+  styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit, OnDestroy {
   public jugadores: any[] = [];
@@ -22,20 +22,32 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (isPlatformBrowser(this.platformId)) {
-      this.actualizarJugadores(); // carga inicial
+      this.actualizarJugadores();
 
+      // Actualiza los datos cada 2 segundos
       this.intervalId = setInterval(() => {
         this.actualizarJugadores();
-      }, 2000); // actualiza cada 2 segundos
+      }, 2000);
     }
   }
 
   actualizarJugadores(): void {
-    const storedData = localStorage.getItem('jugadores');
+    const storedData = localStorage.getItem('Jugadores_Seleccionados');
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);
-        this.jugadores = Array.isArray(parsedData) ? parsedData : [parsedData];
+
+        const jugadores: any[] = [];
+
+        if (parsedData.jugador1) {
+          jugadores.push(parsedData.jugador1);
+        }
+
+        if (parsedData.jugador2) {
+          jugadores.push(parsedData.jugador2);
+        }
+
+        this.jugadores = jugadores;
       } catch (error) {
         console.error('Error al parsear los datos de localStorage:', error);
       }
@@ -44,7 +56,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     if (this.intervalId) {
-      clearInterval(this.intervalId); // evitar memoria colgada
+      clearInterval(this.intervalId);
     }
   }
 }

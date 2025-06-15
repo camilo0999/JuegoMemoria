@@ -1,0 +1,72 @@
+<div class="register-container">
+  <h2>📝 Registro de Nuevo Usuario</h2>
+  <form #registerForm="ngForm" (ngSubmit)="registrarUsuario()">
+    <!-- Nombre -->
+    <div class="input-group">
+      <label for="name">Nombre:</label>
+      <input
+        id="name"
+        type="text"
+        name="name"
+        [(ngModel)]="newUser.name"
+        class="neon-input"
+        required
+      />
+    </div>
+
+    <!-- Email -->
+    <div class="input-group">
+      <label for="email">Correo Electrónico:</label>
+      <input
+        id="email"
+        type="email"
+        name="email"
+        [(ngModel)]="newUser.email"
+        class="neon-input"
+        required
+      />
+    </div>
+
+    <!-- Contraseña -->
+    <div class="input-group">
+      <label for="password">Contraseña:</label>
+      <input
+        id="password"
+        type="password"
+        name="password"
+        [(ngModel)]="newUser.password"
+        class="neon-input"
+        required
+      />
+    </div>
+
+    <!-- Confirmar contraseña -->
+    <div class="input-group">
+      <label for="password_confirmation">Confirmar Contraseña:</label>
+      <input
+        id="confirmPassword"
+        type="password"
+        name="confirmPassword"
+        [(ngModel)]="newUser.confirmPassword"
+        class="neon-input"
+        required
+      />
+    </div>
+
+    <!-- Botones -->
+    <div class="input-group">
+      <button
+        type="submit"
+        class="neon-button"
+        [disabled]="
+          !registerForm.valid || newUser.password !== newUser.confirmPassword
+        "
+      >
+        Registrar
+      </button>
+      <button type="button" class="neon-button" (click)="volver()">
+        Cancelar
+      </button>
+    </div>
+  </form>
+</div>

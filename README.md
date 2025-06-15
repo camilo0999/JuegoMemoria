@@ -151,7 +151,3 @@ Este proyecto está licenciado bajo la [Nombre de la Licencia] - consulta el arc
 
 - **Camilo [Camiloibarguen999]** - _Desarrollador principal_
   [Perfil de GitHub](https://github.com/camilo0999)
-
-```
-
-```

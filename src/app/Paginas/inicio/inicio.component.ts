@@ -15,6 +15,6 @@ export class InicioComponent {
   }
 
   public borrarJugadores() {
-    localStorage.removeItem('jugadores');
+    localStorage.removeItem('Jugadores_Seleccionados');
   }
 }

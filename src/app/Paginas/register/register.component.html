@@ -1,52 +1,65 @@
 <div class="register-container">
-  <h1 class="glow-text">Registro de Jugadores</h1>
+  <h1 class="glow-text">Selección de Jugadores</h1>
 
   <div class="player-forms">
-    <!-- Formulario Jugador 1 -->
+    <!-- Jugador 1 -->
     <div class="player-form">
       <h2 class="player-text">👤 Jugador 1</h2>
+      <label for="jugador1-select">Selecciona un jugador existente:</label>
       <div class="input-group">
-        <input
-          type="text"
-          [(ngModel)]="jugador1.nombre"
-          placeholder="Nombre"
-          class="neon-input"
-        />
-        <input
-          type="number"
-          [(ngModel)]="jugador1.edad"
-          placeholder="Edad"
-          class="neon-input"
-          min="0"
-          max="99"
-        />
+        <select id="jugador1-select" [(ngModel)]="jugador1" class="neon-select">
+          <option [ngValue]="null">Seleccione un jugador</option>
+          <option
+            *ngFor="let user of usuarios"
+            [ngValue]="user"
+            [disabled]="jugador2?.email === user.email"
+          >
+            {{ user.name }} ({{ user.email }})
+          </option>
+        </select>
       </div>
     </div>
 
-    <!-- Formulario Jugador 2 (Solo si cantidadJugadores === 2) -->
+    <!-- Jugador 2 -->
     <div class="player-form" *ngIf="cantidadJugadores === 2">
       <h2 class="player-text">👤 Jugador 2</h2>
+      <label for="jugador2-select">Selecciona un jugador diferente:</label>
       <div class="input-group">
-        <input
-          type="text"
-          [(ngModel)]="jugador2.nombre"
-          placeholder="Nombre"
-          class="neon-input"
-        />
-        <input
-          type="number"
-          [(ngModel)]="jugador2.edad"
-          placeholder="Edad"
-          class="neon-input"
-          min="0"
-          max="99"
-        />
+        <select id="jugador2-select" [(ngModel)]="jugador2" class="neon-select">
+          <option [ngValue]="null">Seleccione un jugador</option>
+          <option
+            *ngFor="let user of usuarios"
+            [ngValue]="user"
+            [disabled]="jugador1?.email === user.email"
+          >
+            {{ user.name }} ({{ user.email }})
+          </option>
+        </select>
       </div>
     </div>
   </div>
 
-  <div class="input-group">
-    <button class="neon-button" (click)="registrar()">🚀 JUGAR</button>
-    <button class="neon-button" (click)="volver()">🔙 Volver</button>
+  <div class="action-buttons">
+    <button
+      class="neon-button play-button"
+      (click)="iniciarJuego()"
+      [disabled]="!jugador1 || (cantidadJugadores === 2 && !jugador2)"
+      [title]="
+        !jugador1
+          ? 'Selecciona al menos un jugador'
+          : cantidadJugadores === 2 && !jugador2
+          ? 'Falta seleccionar el jugador 2'
+          : ''
+      "
+    >
+      🚀 JUGAR
+    </button>
+
+    <button class="neon-button" (click)="redireccionarRegistro()">
+      Registrar jugadores
+    </button>
+    <button class="neon-button back-button" (click)="volver()">
+      🔙 Volver
+    </button>
   </div>
 </div>

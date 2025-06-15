@@ -1,0 +1,87 @@
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap");
+
+:host {
+  font-family: "Orbitron", sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+}
+
+.register-container {
+  background: rgba(13, 2, 33, 0.6);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 0 25px rgba(122, 11, 192, 0.4);
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 500px;
+  width: 100%;
+  color: #f1f1f1;
+  text-align: center;
+}
+
+.register-container h2 {
+  font-size: 2em;
+  margin-bottom: 20px;
+  color: #ffffff;
+  text-shadow: 0 0 10px #560bad, 0 0 20px #560bad;
+}
+
+/* Grupo de campos */
+.input-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.input-group label {
+  margin-bottom: 8px;
+  color: #d4c2fc;
+  text-shadow: 0 0 5px #7a0bc0;
+}
+
+/* Estilo para los inputs */
+.neon-input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid #560bad;
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 1em;
+  outline: none;
+  box-shadow: 0 0 10px #560bad inset;
+  transition: box-shadow 0.3s ease;
+}
+
+.neon-input:focus {
+  box-shadow: 0 0 10px #f72585, 0 0 20px #f72585, 0 0 30px #f72585 inset;
+}
+
+/* Botones con efecto neón */
+.neon-button {
+  background: #3f37c9;
+  border: 2px solid #560bad;
+  color: white;
+  padding: 12px 25px;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  box-shadow: 0 0 10px #560bad, 0 0 20px #560bad;
+  margin: 10px 5px 0 5px;
+  border-radius: 8px;
+}
+
+.neon-button:hover {
+  background: #f72585;
+  box-shadow: 0 0 20px #f72585, 0 0 40px #f72585;
+  transform: scale(1.05);
+}
+
+.neon-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+}
