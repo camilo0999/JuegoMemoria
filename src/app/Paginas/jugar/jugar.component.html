@@ -1,39 +1,76 @@
-<app-navbar></app-navbar>
-<div class="container">
-  <h2 class="titulo">🧠 Juego de Memoria Espacial 🚀</h2>
-  <div class="tablero">
-    <div class="fila" *ngFor="let fila of filas">
-      <div
-        class="celda"
-        *ngFor="let carta of fila"
-        (click)="destaparCarta(carta.id)"
-      >
-        <img
-          [src]="carta.tapada ? reverso : carta.imagen"
-          [alt]="carta.nombre"
-        />
+<div class="game-container">
+  <!-- Cabecera con título y controles principales -->
+  <header class="game-header">
+    <h1 class="game-title">🧠 Juego de Memoria Espacial 🚀</h1>
+
+    <div class="header-controls">
+      <div class="timer-display">
+        ⏱️ <span class="timer-value">{{ tiempoFormateado }}</span>
+      </div>
+
+      <div class="music-control">
+        <button class="control-button" (click)="toggleMusica()">
+          {{ musicaActiva ? "⏸️ Pausar" : "▶️ Reproducir" }}
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Contenido principal del juego -->
+  <main class="game-main">
+    <app-navbar></app-navbar>
+    <!-- Tablero de juego -->
+    <div class="game-board">
+      <div class="board-row" *ngFor="let fila of filas">
+        <div
+          class="board-card"
+          *ngFor="let carta of fila"
+          (click)="destaparCarta(carta.id)"
+          [class.flipped]="!carta.tapada"
+        >
+          <div class="card-face card-front">
+            <img [src]="carta.imagen" [alt]="carta.nombre" />
+          </div>
+          <div class="card-face card-back">
+            <img [src]="reverso" alt="Reverso de carta" />
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Panel de controles -->
+    <aside class="control-panel">
+      <button class="action-button primary" (click)="iniciarJuego()">
+        {{ estadoJuego ? "🔄 Reiniciar" : "🎮 Comenzar" }}
+      </button>
+
+      <button class="action-button secondary" (click)="volver()">
+        ↩️ Volver al menú
+      </button>
+
+      <button class="action-button save" (click)="mostrarModalGuardar = true">
+        💾 Guardar partida
+      </button>
+    </aside>
+  </main>
+
+  <!-- Notificaciones -->
+  <div *ngIf="mostrarToast" class="notification-toast">
+    {{ mensajeToast }}
+  </div>
+
+  <!-- Modal de confirmación para guardar partida -->
+  <div class="modal-backdrop" *ngIf="mostrarModalGuardar">
+    <div class="modal">
+      <h2>¿Deseas guardar la partida?</h2>
+      <div class="modal-actions">
+        <button class="action-button primary" (click)="confirmarGuardar()">
+          ✅ Sí, guardar
+        </button>
+        <button class="action-button secondary" (click)="cancelarGuardar()">
+          ❌ No
+        </button>
       </div>
     </div>
   </div>
-</div>
-
-<!-- Controles a la derecha -->
-<div class="controles">
-  <button class="neon-button" (click)="iniciarJuego()">
-    {{ estadoJuego ? "Reiniciar juego" : "Iniciar Juego" }}
-  </button>
-  <button class="neon-button" (click)="volver()">Volver</button>
-
-  <div class="dificultad-container">
-    <label for="dificultad">Dificultad:</label>
-    <select name="dificultad" id="dificultad">
-      <option value="facil">Fácil</option>
-      <option value="medio">Medio</option>
-      <option value="dificil">Difícil</option>
-    </select>
-  </div>
-</div>
-
-<div *ngIf="mostrarToast" class="toast">
-  {{ mensajeToast }}
 </div>

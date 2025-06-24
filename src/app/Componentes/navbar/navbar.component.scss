@@ -1,46 +1,62 @@
-/* Estilo futurista mejorado */
+@import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap");
 
 .jugadores-container {
-  position: absolute;
-  top: 20px;
-  left: 20px;
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  z-index: 100;
+  gap: 20px;
+
+  /* Margen para separar del borde */
+  margin: 20px;
+  max-width: 320px;
 }
 
 .jugador-card {
-  background: rgba(20, 20, 20, 0.8);
+  display: flex;
+  align-items: center;
+  background: linear-gradient(
+    135deg,
+    rgba(15, 15, 15, 0.95),
+    rgba(30, 30, 30, 0.85)
+  );
   color: #00ffe7;
-  padding: 20px;
-  width: 280px;
-  border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0, 255, 231, 0.3);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(0, 255, 231, 0.2);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  font-family: "Orbitron", sans-serif; /* Fuente futurista sugerida */
+  padding: 18px 22px;
+  width: 300px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 255, 231, 0.3);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 255, 231, 0.3);
+  transition: all 0.3s ease;
+  font-family: "Orbitron", sans-serif;
 }
 
 .jugador-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 0 25px rgba(0, 255, 231, 0.6);
+  transform: scale(1.02);
+  box-shadow: 0 0 30px rgba(0, 255, 231, 0.6);
 }
 
-.jugador-nombre {
-  text-align: center;
-  font-size: 22px;
-  font-weight: bold;
-  letter-spacing: 1px;
-  margin-bottom: 12px;
-  color: #00ffe7;
+.jugador-avatar {
+  font-size: 40px;
+  margin-right: 15px;
   text-shadow: 0 0 5px rgba(0, 255, 231, 0.5);
 }
 
-.jugador-info p {
-  margin: 6px 0;
-  font-size: 17px;
+.jugador-detalle {
+  display: flex;
+  flex-direction: column;
+}
+
+.jugador-nombre {
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #00ffe7;
+  text-shadow: 0 0 5px rgba(0, 255, 231, 0.6);
+}
+
+.jugador-puntaje {
+  margin-top: 6px;
+  font-size: 16px;
   color: #ffffffcc;
   text-shadow: 0 0 3px rgba(0, 255, 231, 0.2);
 }

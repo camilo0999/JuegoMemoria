@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { NavbarComponent } from '../../Componentes/navbar/navbar.component';
 import { CommonModule } from '@angular/common';
+import { PartidasUsuariosService } from '../../Servicios/partidas-usuarios.service';
+import { PartidaUsuario } from '../../Interfaces/partidaUsuario.interface';
+
 @Component({
   selector: 'app-jugar',
   standalone: true,
@@ -10,20 +13,24 @@ import { CommonModule } from '@angular/common';
 })
 export class JugarComponent implements OnInit {
   public jugadores: any[] = [];
-
   public turnoActual = 0;
-
   public estadoJuego = false;
 
   public mensajeToast: string = '';
-
   public mostrarToast: boolean = false;
+  public mostrarModalGuardar: boolean = false;
 
-  constructor() {
-    const data = localStorage.getItem('jugadores');
-    this.jugadores = data ? JSON.parse(data) : [];
-  }
+  // Cronómetro
+  public tiempo = 0;
+  public intervalo: any;
+  public tiempoFormateado = '00:00';
+  public segundos: number = 0;
 
+  // Música
+  public audio = new Audio('/assets/sonidos/play.mp3');
+  public musicaActiva = true;
+
+  // Tablero
   public cartas = [
     {
       id: 1,
@@ -116,41 +123,96 @@ export class JugarComponent implements OnInit {
       emparejada: false,
     },
   ];
-
-  public mostrarMensajeToast(mensaje: string) {
-    this.mensajeToast = mensaje;
-    this.mostrarToast = true;
-
-    setTimeout(() => {
-      this.mostrarToast = false;
-      this.mensajeToast = '';
-    }, 2000); // El toast se oculta después de 2 segundos
-  }
-
-  public reverso =
+  public filas: any[][] = [];
+  public reverso: string =
     'https://png.pngtree.com/png-vector/20191001/ourlarge/pngtree-spiral-galaxy-icon-cartoon-style-png-image_1772741.jpg';
 
-  public filas: any[][] = [];
+  constructor(private partidasUsuariosService: PartidasUsuariosService) {
+    const data = localStorage.getItem('jugadoresSeleccionados');
+    const jugadoresData = data ? JSON.parse(data) : {};
+    this.jugadores = Object.values(jugadoresData);
+  }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.generarFilas();
   }
 
-  public cambiarTurno() {
-    this.turnoActual = (this.turnoActual + 1) % this.jugadores.length;
+  public iniciarJuego(): void {
+    this.cartas.forEach((carta) => {
+      carta.tapada = true;
+      carta.emparejada = false;
+    });
+
+    if (!this.estadoJuego) {
+      this.mostrarMensajeToast(`¡${this.jugadores[0]?.name} comienza! 🎉`);
+      this.iniciarCronometro();
+      this.audio.loop = true;
+      this.audio.play();
+    } else {
+      this.detenerCronometro();
+      this.audio.pause();
+      this.audio.currentTime = 0;
+    }
+
+    this.generarFilas();
+    this.estadoJuego = !this.estadoJuego;
   }
 
-  public generarFilas() {
+  public toggleMusica(): void {
+    this.musicaActiva = !this.musicaActiva;
+    this.musicaActiva ? this.audio.play() : this.audio.pause();
+  }
+
+  private iniciarCronometro(): void {
+    this.tiempo = 0;
+    this.actualizarTiempo();
+    clearInterval(this.intervalo);
+    this.intervalo = setInterval(() => {
+      this.tiempo++;
+      this.segundos++;
+      this.actualizarTiempo();
+    }, 1000);
+  }
+
+  private detenerCronometro(): void {
+    clearInterval(this.intervalo);
+  }
+
+  private actualizarTiempo(): void {
+    const minutos = Math.floor(this.tiempo / 60);
+    const segundos = this.tiempo % 60;
+    this.tiempoFormateado = `${this.formato(minutos)}:${this.formato(
+      segundos
+    )}`;
+  }
+
+  private formato(valor: number): string {
+    return valor < 10 ? `0${valor}` : `${valor}`;
+  }
+
+  public generarFilas(): void {
+    this.filas = [];
     const columnas = 3;
     for (let i = 0; i < this.cartas.length; i += columnas) {
       this.filas.push(this.cartas.slice(i, i + columnas));
     }
   }
-  public volver() {
+
+  public cambiarTurno(): void {
+    this.turnoActual = (this.turnoActual + 1) % this.jugadores.length;
+  }
+
+  public volver(): void {
     window.history.back();
   }
 
-  public destaparCarta(idCarta: number) {
+  public mostrarMensajeToast(mensaje: string): void {
+    this.mensajeToast = mensaje;
+    this.mostrarToast = true;
+    setTimeout(() => (this.mostrarToast = false), 3000);
+  }
+
+  public destaparCarta(idCarta: number): void {
     const carta = this.cartas.find((c) => c.id === idCarta);
     if (!carta || !carta.tapada || carta.emparejada) return;
 
@@ -165,7 +227,7 @@ export class JugarComponent implements OnInit {
     }
   }
 
-  public emparejarCartas() {
+  public emparejarCartas(): void {
     const [carta1, carta2] = this.cartas.filter(
       (c) => !c.tapada && !c.emparejada
     );
@@ -178,41 +240,83 @@ export class JugarComponent implements OnInit {
         this.jugadores[this.turnoActual].puntaje =
           (this.jugadores[this.turnoActual].puntaje || 0) + 1;
 
-        // Guardar el localStorage los puntos
-        localStorage.setItem('jugadores', JSON.stringify(this.jugadores));
+        const jugadoresObj = {
+          jugador1: this.jugadores[0],
+          jugador2: this.jugadores[1],
+        };
+
+        localStorage.setItem(
+          'jugadoresSeleccionados',
+          JSON.stringify(jugadoresObj)
+        );
 
         this.mostrarMensajeToast(
-          `¡${this.jugadores[this.turnoActual].nombre} hizo una pareja! 🎉`
+          `¡${this.jugadores[this.turnoActual].name} hizo una pareja! 🎉`
         );
       } else {
         carta1.tapada = true;
         carta2.tapada = true;
 
-        // Cambiar de turno
         this.cambiarTurno();
         this.mostrarMensajeToast(
-          `Turno de ${this.jugadores[this.turnoActual].nombre}`
+          `Turno de ${this.jugadores[this.turnoActual].name}`
         );
       }
     }
   }
 
-  public iniciarJuego(): void {
-    // Reiniciar estado de las cartas
-    this.cartas.forEach((carta) => {
-      carta.tapada = true;
-      carta.emparejada = false;
-    });
+  public confirmarGuardar(): void {
+    this.mostrarModalGuardar = false;
+    this.guardarPartida();
+  }
 
-    // Mostrar mensaje solo si el juego no está activo
-    if (!this.estadoJuego) {
-      this.mostrarMensajeToast(`¡${this.jugadores[0]?.nombre} comienza! 🎉`);
+  public cancelarGuardar(): void {
+    this.mostrarModalGuardar = false;
+  }
+
+  public guardarPartida(): void {
+    const partida_id = parseInt(
+      localStorage.getItem('partidaActual') || '0',
+      10
+    );
+
+    if (isNaN(partida_id) || partida_id === 0) {
+      console.error('ID de partida inválido o no encontrado en localStorage');
+      this.mostrarMensajeToast('❌ Error al guardar la partida. ID inválido.');
+      return;
     }
 
-    // Generar las filas del tablero
-    this.generarFilas();
+    this.jugadores.forEach((jugador: any) => {
+      if (!jugador || jugador.id == null) {
+        console.warn('Jugador inválido detectado y omitido:', jugador);
+        return;
+      }
 
-    // Alternar el estado del juego
-    this.estadoJuego = !this.estadoJuego;
+      const partida: PartidaUsuario = {
+        partida_id: partida_id,
+        user_id: jugador.id,
+        aciertos: jugador.puntaje || 0,
+        tiempo: this.segundos,
+      };
+
+      console.log('Partida a guardar:', partida);
+
+      this.partidasUsuariosService.postAciertos(partida).subscribe({
+        next: (respuesta) => {
+          console.log(`Partida guardada para ${jugador.name}:`, respuesta);
+        },
+        error: (error) => {
+          console.error(
+            `Error al guardar partida para ${jugador.name}:`,
+            error
+          );
+          this.mostrarMensajeToast(
+            `❌ Error al guardar la partida de ${jugador.name}`
+          );
+        },
+      });
+    });
+
+    this.mostrarMensajeToast('✅ Partida guardada exitosamente');
   }
 }

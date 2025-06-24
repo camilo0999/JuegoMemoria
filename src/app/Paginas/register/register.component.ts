@@ -3,7 +3,14 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UsersService } from '../../Servicios/users.service';
+import { PartidasService } from '../../Servicios/partidas.service';
 import { User } from '../../Interfaces/users.interface';
+import { Partida } from '../../Interfaces/partidas.interface';
+
+interface JugadoresSeleccionados {
+  jugador1: (User & { puntaje: number }) | null;
+  jugador2: (User & { puntaje: number }) | null;
+}
 
 @Component({
   selector: 'app-register',
@@ -15,14 +22,28 @@ import { User } from '../../Interfaces/users.interface';
 export class RegisterComponent implements OnInit {
   cantidadJugadores: number = 1;
   usuarios: User[] = [];
-  jugador1: User | null = null;
-  jugador2: User | null = null;
+  jugador1: (User & { puntaje?: number }) | null = null;
+  jugador2: (User & { puntaje?: number }) | null = null;
 
   constructor(
     private usersService: UsersService,
+    private partidasService: PartidasService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
+
+  // Reproduce un sonido desde la ruta indicada
+  public reproducirSonido(ruta: string): void {
+    const sonido = new Audio(ruta);
+    sonido.play().catch((error) => {
+      console.error('No se pudo reproducir el sonido:', error);
+    });
+  }
+
+  // Llama a la reproducción del sonido para botones
+  public reproducirSonidoBoton(): void {
+    this.reproducirSonido('/assets/sonidos/boton.mp3');
+  }
 
   ngOnInit(): void {
     this.cargarUsuarios();
@@ -45,14 +66,39 @@ export class RegisterComponent implements OnInit {
   }
 
   redireccionarRegistro(): void {
+    this.reproducirSonidoBoton();
     this.router.navigate(['/registrar-usuario']);
   }
 
   iniciarJuego(): void {
     if (this.canStartGame()) {
       this.guardarJugadoresEnLocalStorage();
-      const jugadores = this.getSelectedPlayers();
-      this.router.navigate(['/jugar/']);
+      const hoy = new Date();
+      const fechaFormateada = hoy.toISOString().split('T')[0]; // Esto devuelve "2025-06-11"
+
+      const nuevaPartida: Partida = {
+        id: undefined,
+        juego_id: '1ac36c93-e37d-4622-a7a9-a838096c2e2d',
+        fecha: fechaFormateada,
+        tiempo: 0,
+        nivel: 'facil',
+      };
+      this.reproducirSonidoBoton();
+
+      this.partidasService.postPartida(nuevaPartida).subscribe({
+        next: (partidaCreada) => {
+          console.log('Partida creada:', partidaCreada.id);
+          localStorage.setItem(
+            'partidaActual',
+            JSON.stringify(partidaCreada.id)
+          );
+          this.router.navigate(['/jugar/']);
+        },
+        error: (err) => {
+          console.error('Error creando partida:', err);
+          this.router.navigate(['/jugar/']);
+        },
+      });
     }
   }
 
@@ -69,45 +115,44 @@ export class RegisterComponent implements OnInit {
   }
 
   private guardarJugadoresEnLocalStorage(): void {
-    const jugador1ConPuntaje = this.jugador1
-      ? { ...this.jugador1, puntaje: 0 }
-      : null;
-
-    const jugador2ConPuntaje =
-      this.cantidadJugadores === 2 && this.jugador2
-        ? { ...this.jugador2, puntaje: 0 }
-        : null;
-
-    const jugadoresSeleccionados = {
-      jugador1: jugador1ConPuntaje,
-      jugador2: jugador2ConPuntaje,
+    const jugadoresSeleccionados: JugadoresSeleccionados = {
+      jugador1: this.jugador1 ? { ...this.jugador1, puntaje: 0 } : null,
+      jugador2:
+        this.cantidadJugadores === 2 && this.jugador2
+          ? { ...this.jugador2, puntaje: 0 }
+          : null,
     };
 
     localStorage.setItem(
-      'Jugadores_Seleccionados',
+      'jugadoresSeleccionados', // Nombre consistente en minúsculas
       JSON.stringify(jugadoresSeleccionados)
     );
   }
 
   private cargarJugadoresDesdeLocalStorage(): void {
     const jugadoresGuardados = localStorage.getItem('jugadoresSeleccionados');
-    if (jugadoresGuardados) {
-      const { jugador1, jugador2 } = JSON.parse(jugadoresGuardados);
+    if (!jugadoresGuardados) return;
 
-      // Agregamos campo 'puntaje' si no existe
+    try {
+      const { jugador1, jugador2 } = JSON.parse(
+        jugadoresGuardados
+      ) as JugadoresSeleccionados;
+
       if (jugador1) {
-        jugador1.puntaje = jugador1.puntaje ?? 0;
-        this.jugador1 = jugador1;
+        this.jugador1 = { ...jugador1, puntaje: jugador1.puntaje ?? 0 };
       }
 
       if (jugador2) {
-        jugador2.puntaje = jugador2.puntaje ?? 0;
-        this.jugador2 = jugador2;
+        this.jugador2 = { ...jugador2, puntaje: jugador2.puntaje ?? 0 };
       }
+    } catch (error) {
+      console.error('Error al parsear jugadores:', error);
+      localStorage.removeItem('jugadoresSeleccionados');
     }
   }
 
   volver(): void {
+    this.reproducirSonidoBoton();
     window.history.back();
   }
 }

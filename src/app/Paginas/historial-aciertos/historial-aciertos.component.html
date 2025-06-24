@@ -1,0 +1,116 @@
+<!-- SPINNER GLOBAL -->
+<div *ngIf="cargando" class="spinner-container">
+  <div class="spinner"></div>
+</div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div *ngIf="!cargando" class="game-history-container">
+  <!-- Sección de historial -->
+  <div class="history-section">
+    <h2 class="section-title">
+      <span class="title-icon">📊</span>
+      Historial de Partidas
+      <span class="title-decoration"></span>
+    </h2>
+
+    <div class="table-container">
+      <table class="history-table">
+        <thead>
+          <tr class="table-header">
+            <th>#</th>
+            <th>Jugador</th>
+            <th>Email</th>
+            <th>Nivel</th>
+            <th>Aciertos</th>
+            <th>Tiempo (s)</th>
+            <th>Fecha</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr
+            *ngFor="let registro of historialPaginado; let i = index"
+            class="table-row"
+          >
+            <td class="rank">
+              {{ (paginaActual - 1) * itemsPorPagina + i + 1 }}
+            </td>
+            <td class="player">
+              {{ registro.user?.name }}
+            </td>
+            <td class="email">{{ registro.user?.email }}</td>
+            <td class="level">
+              <span class="level-badge level-{{ registro.partida?.nivel }}">
+                {{ registro.partida?.nivel }}
+              </span>
+            </td>
+            <td class="hits">{{ registro.aciertos }}</td>
+            <td class="time">{{ registro.tiempo }}</td>
+            <td class="date">
+              {{ registro.partida?.fecha | date : "dd/MM/yyyy" }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Paginación -->
+    <div class="pagination">
+      <button
+        (click)="cambiarPagina(-1)"
+        [disabled]="paginaActual === 1"
+        class="pagination-button prev"
+      >
+        <span class="button-icon">←</span>
+        <span class="button-text">Anterior</span>
+      </button>
+
+      <span class="page-indicator">
+        Página <span class="current-page">{{ paginaActual }}</span> de
+        <span class="total-pages">{{ totalPaginas }}</span>
+      </span>
+
+      <button
+        (click)="cambiarPagina(1)"
+        [disabled]="paginaActual === totalPaginas"
+        class="pagination-button next"
+      >
+        <span class="button-text">Siguiente</span>
+        <span class="button-icon">→</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Sección Top 3 Jugadores -->
+  <div class="top-players-section">
+    <h3 class="top-players-title">
+      <span class="trophy-icon">🏆</span>
+      Top 3 Jugadores
+      <span class="title-decoration"></span>
+    </h3>
+
+    <div class="players-ranking">
+      <div
+        *ngFor="let jugador of topJugadores; let i = index"
+        class="player-card rank-{{ i + 1 }}"
+      >
+        <div class="player-rank">#{{ i + 1 }}</div>
+
+        <div class="player-avatar">
+          <span class="avatar-icon">{{ getAvatarIcon(i) }}</span>
+        </div>
+
+        <div class="player-info">
+          <h4 class="player-name">{{ jugador.name }}</h4>
+          <p class="player-email">{{ jugador.email }}</p>
+          <div class="player-stats">
+            <span class="stat-label">Aciertos:</span>
+            <span class="stat-value">{{ jugador.totalAciertos }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BOTÓN VOLVER -->
+<button class="volver-button" (click)="volver()">🔙 Volver</button>

@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   actualizarJugadores(): void {
-    const storedData = localStorage.getItem('Jugadores_Seleccionados');
+    const storedData = localStorage.getItem('jugadoresSeleccionados');
     if (storedData) {
       try {
         const parsedData = JSON.parse(storedData);

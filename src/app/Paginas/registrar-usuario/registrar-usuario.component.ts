@@ -23,7 +23,21 @@ export class RegistrarUsuarioComponent {
 
   constructor(private usersService: UsersService, private router: Router) {}
 
+  // Reproduce un sonido desde la ruta indicada
+  public reproducirSonido(ruta: string): void {
+    const sonido = new Audio(ruta);
+    sonido.play().catch((error) => {
+      console.error('No se pudo reproducir el sonido:', error);
+    });
+  }
+
+  // Llama a la reproducción del sonido para botones
+  public reproducirSonidoBoton(): void {
+    this.reproducirSonido('/assets/sonidos/boton.mp3');
+  }
+
   registrarUsuario(): void {
+    this.reproducirSonidoBoton();
     if (this.newUser.password !== this.newUser.confirmPassword) {
       alert('Las contraseñas no coinciden');
       return;
@@ -57,5 +71,6 @@ export class RegistrarUsuarioComponent {
 
   volver(): void {
     window.history.back();
+    this.reproducirSonidoBoton();
   }
 }

@@ -1,9 +1,11 @@
 <div class="jugadores-container">
   <div *ngFor="let jugador of jugadores" class="jugador-card">
-    <h2 class="jugador-nombre">👤 {{ jugador.name }}</h2>
-
-    <div class="jugador-info">
-      <p><strong>Puntaje:</strong> {{ jugador.puntaje }}</p>
+    <div class="jugador-avatar">👤</div>
+    <div class="jugador-detalle">
+      <h2 class="jugador-nombre">{{ jugador.name }}</h2>
+      <p class="jugador-puntaje">
+        🎯 <strong>Puntaje:</strong> {{ jugador.puntaje }}
+      </p>
     </div>
   </div>
 </div>

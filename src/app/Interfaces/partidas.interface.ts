@@ -1,5 +1,5 @@
 export interface Partida {
-  id: number;
+  id?: number;
   juego_id: string;
   fecha: string;
   tiempo: number;
